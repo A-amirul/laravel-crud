@@ -161,7 +161,7 @@ label {
     font-weight: bold;
 }
 
-input[type="text"],
+input[type="text"],input[type="file"],input[type="number"],
 textarea {
     width: 100%;
     padding: 10px;
