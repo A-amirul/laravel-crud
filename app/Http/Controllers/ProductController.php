@@ -36,36 +36,60 @@ class ProductController extends Controller
                 'description'=>$request->description,
                 'image'     =>$this->uploadOne($request->image, 300, 300, config('imagepath.products')),
             ]);
-        // $product=new Products;
-        // $product->name=$request->name;
-        // $product->price=$request->price;
-        // $product->description=$request->description;
-        // if ($request->hasFile('image')) {
-        //     $filename = $this->uploadOne($request->image, 300, 300, config('imagepath.products'));
-        //     $employee->image = $filename;
 
-        // }
-        // $product->save();
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
-    public function edit($id){
-        $product=Products::find($id);
-        return view('products.edit', compact('product'));
+    public function edit($id)
+{
+    $product = Products::find($id);
+
+    if (!$product) {
+        return redirect()->route('products.index')->with('error', 'Product not found.');
     }
 
-    public function update(Request $request, $id){
-        $product=Products::find($id);
-        $product->name=$request->name;
-        $product->price=$request->price;
-        $product->description=$request->description;
-        $product->save();
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+    return view('products.edit', compact('product'));
+}
+
+public function update(Request $request, $id)
+{
+    $product = Products::find($id);
+
+    if (!$product) {
+        return redirect()->route('products.index')->with('error', 'Product not found.');
     }
 
-    public function destroy($id){
-        $product=Products::find($id);
-        $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+    $request->validate([
+        'name' => 'required',
+        'price' => 'required|numeric',
+        'description' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
+
+    $product->name = $request->name;
+    $product->price = $request->price;
+    $product->description = $request->description;
+
+    if ($request->hasFile('image')) {
+        $product->image = $this->uploadOne($request->image, 300, 300, config('imagepath.products'));
     }
+
+    $product->save();
+
+    return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+}
+
+public function destroy($id)
+{
+    $product = Products::find($id);
+
+    if (!$product) {
+        return redirect()->route('products.index')->with('error', 'Product not found.');
+    }
+
+    $product->delete();
+
+    return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+}
+
 }
