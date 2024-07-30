@@ -84,7 +84,7 @@
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 50px auto;
     padding: 20px;
     background-color: #fff;
