@@ -185,10 +185,58 @@ button[type="submit"]:hover {
     opacity: 0.9;
 }
 
+body {
+            font-family: 'Figtree', sans-serif;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #123;
+            border-bottom: 1px solid #ccc;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            padding: 2rem;
+            margin: 0;
+        }
+        .header ul li a {
+            text-decoration: none;
+            color: white;
+        }
+        .content {
+            margin-top: 60px; /* Adjust this value based on your header's height */
+            padding: 1rem;
+        }
+        .navbar-container{
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
     </style>
 
 </head>
 <body>
+   <div class="navbar-container">
+    <div class="header">
+        <ul>
+            <li><a>Home</a></li>
+            <li><a>About Us</a></li>
+            <li><a href="{{ route('products.index') }}">Products</a></li>
+            <li><a href="{{ route('posts.index') }}">Posts</a></li>
+            <li><a>Contact Us</a></li>
+        </ul>
+    </div>
+   </div>
     <div class="container">
         @yield('content')
     </div>
